@@ -34,7 +34,7 @@
     self.locationManager.delegate = self;
     
     [self.locationManager requestAlwaysAuthorization];
-    [self.locationManager startMonitoringSignificantLocationChanges];
+    //[self.locationManager startMonitoringSignificantLocationChanges];
     [self.locationManager startMonitoringVisits];
     
     self.motionActivityManager = [[CMMotionActivityManager alloc]init];
@@ -95,6 +95,20 @@
     marker.title = @"Sydney";
     marker.snippet = @"Australia";
     marker.map = self.mapView;
+    
+    //UILocalNotification
+    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    localNotif.fireDate = [[NSDate alloc]initWithTimeIntervalSinceNow:10];
+    localNotif.alertAction = @"View details";
+    localNotif.alertBody = @"Body";
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -139,6 +153,8 @@
     marker.map = self.mapView;
     
     self.statusLabel.text = [NSString stringWithFormat:@"%i Visit",self.locationEvents];
+    
+    
 }
 
 @end
